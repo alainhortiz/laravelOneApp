@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\CursoController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,29 +15,57 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', static function () {
-    return view('welcome');
-});
+//Primer método
 
-Route::get('cursos', static function () {
-    return "Bienvenidos a la página de cursos";
-});
+//Route::get('/', static function () {
+//    return view('welcome');
+//});
 
-Route::get('cursos/create', static function () {
-    return "En esta página podrás crear un curso";
-});
+//Route::get('cursos', static function () {
+//    return "Bienvenidos a la página de cursos";
+//});
+
+//Route::get('cursos/create', static function () {
+//    return "En esta página podrás crear un curso";
+//});
 
 //Route::get('cursos/{curso}', static function ($curso) {
 //    return "Bienvenidos al curso $curso";
 //});
 
 //Podemos definir que esta variable sea opcional con el signo ? y hay que inicializarla
-Route::get('cursos/{curso}/{categoria?}', static function ($curso, $categoria = null) {
+//Route::get('cursos/{curso}/{categoria?}', static function ($curso, $categoria = null) {
+//
+//    if ($categoria) {
+//        return "Bienvenidos al curso $curso, de la categoría $categoria";
+//    }
+//
+//    return "Bienvenidos al curso $curso";
+//
+//});
 
-    if ($categoria) {
-        return "Bienvenidos al curso $curso, de la categoría $categoria";
-    }
+//2do Método
 
-    return "Bienvenidos al curso $curso";
+//La lógica debe estar en los controladores
 
+//Route::get('/', HomeController::class );
+//
+//Route::get('cursos', [CursoController::class,'index']);
+//
+//Route::get('cursos/create', [CursoController::class,'create']);
+
+//Podemos definir que esta variable sea opcional con el signo ? y hay que inicializarla
+//Route::get('cursos/{curso}/{categoria?}', [CursoController::class,'show']);
+
+//3er método
+
+Route::get('/', HomeController::class );
+
+//Grupos de rutas
+Route::controller(CursoController::class)->group(function (){
+    Route::get('cursos', 'index');
+    Route::get('cursos/create', 'create');
+    Route::get('cursos/{curso}/{categoria?}', 'show');
 });
+
+
